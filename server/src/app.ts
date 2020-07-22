@@ -4,6 +4,9 @@ let bodyParser = require('body-parser');
 let cors = require('cors');
 import * as socketio from 'socket.io';
 
+import {UserRouter} from './routes/user';
+import {RoomRouter} from './routes/room';
+
 const publicDir = path.join(__dirname, '../../client/dist/');
 
 export class ChatApp {
@@ -15,7 +18,7 @@ export class ChatApp {
         this.initSettings();
         this.initDb();
         this.initSocket();
-        
+        this.initRouters();
     }
 
     public listen(port: Number): void {
@@ -26,9 +29,9 @@ export class ChatApp {
 
     private initSocket(): void {
         this.io = socketio();
-        this.io.on('connection', (socket) => {
+        this.io.on('connection', (socket: any) => {
             console.log('User connected');
-            socket.on('message', (msg) => {
+            socket.on('message', (msg: any) => {
                 console.log(msg);
             });
         });
@@ -44,10 +47,15 @@ export class ChatApp {
     }
 
     private initDb(): void {
-        require('../db/mongoose');
+        require('./db/mongoose');
     }
 
     private initRouters(): void {
+        this.express.use('/api', UserRouter());
+        this.express.use('/api', RoomRouter());
 
+        // this.express.get(/.*/, (req: express.Request, res: express.Response) => {
+        //     res.sendFile('index.html', {root: publicDir});
+        // });
     }
 }
