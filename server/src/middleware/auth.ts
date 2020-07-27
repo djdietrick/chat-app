@@ -26,7 +26,7 @@ const auth = async (req: any, res: Response, next: NextFunction) => {
 
 const roomMember = async (req: any, res: Response, next: NextFunction) => {
     try {
-        const room = await Room.findOneById(req.body.room_id);
+        const room = await Room.findOne({_id: req.body.room_id});
         if(!room) {
             throw new Error(`Room not found, Id [${req.body.room_id}]`);
         }
@@ -48,7 +48,7 @@ const roomMember = async (req: any, res: Response, next: NextFunction) => {
 
 const roomAdmin = async (req: any, res: Response, next: NextFunction) => {
     try {
-        const room = await Room.findOneById(req.body.room_id);
+        const room = await Room.findOne({_id: req.body.room_id});
         if(!room) {
             throw new Error(`Room not found, Id [${req.body.room_id}]`);
         }
