@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "env-cmd -f ./src/config/dev.env nodemon src/server.ts",
-    "test": "env-cmd -f ./src/config/dev.env jest --runInBand"
+    "test": "env-cmd -f ./src/config/dev.env jest --runInBand",
+    "populatedb": "env-cmd -f ./src/config/dev.env ts-node ./src/db/scripts/testdata.ts"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "@types/supertest": "^2.0.10",
     "env-cmd": "^10.1.0",
     "jest": "^26.1.0",
+    "moniker": "^0.1.2",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.3",

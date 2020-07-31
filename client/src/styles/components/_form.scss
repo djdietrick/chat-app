@@ -1,0 +1,190 @@
+.form {    
+    display: grid;
+    //flex-direction: column;
+    justify-items: center;
+    grid-template-columns:  minmax(25rem, 1fr);
+
+    &__group {
+        //grid-column: 2 / 3;
+        margin-left: 1rem;
+        margin-right: 1rem;
+
+        margin-bottom: 2rem;
+
+        // &:not(:last-child) {
+        //     margin-bottom: 2rem;
+        // }
+    }
+
+    &__input {
+        font-size: 1.5rem;
+        font-family: inherit;
+        color: inherit;
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        border: none;
+        border-bottom: 3px solid transparent;
+        background-color: $color-background;
+        width: 50rem;
+        display: block;
+        transition: all .3s;
+        color: $color-white;
+        border-bottom: 2px solid $color-grey-light-1;
+        margin-bottom: 2rem;
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color-black, .1);
+            border-bottom: 3px solid $color-secondary-dark;
+        }
+
+        &:focus:invalid {
+            border-bottom: 3px solid $color-error;
+        }
+
+        &::-webkit-input-placeholder {
+            color: $color-grey-dark-2;
+        }
+
+        &--light {
+            background-color: $color-white;
+            color: $color-black;
+        }
+    }
+
+
+    &__label {
+        font-size: 2.5rem;
+        font-weight: 400;
+        //margin-left: 2rem;
+        margin-top: .7rem;
+        margin-bottom: 1rem;
+        display: block;
+        transition: all .3s;
+        color: $color-primary;
+
+        &--white {
+            color: $color-white;
+        }
+        &--black {
+            color: $color-grey-dark-3;
+        }
+    }
+
+    &__error {
+        //color: $color-warning;
+        border: 2px solid $color-error;
+        border-radius: 2px;
+        padding: 1.5rem 3rem;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 1rem 2rem rgba($color-black, .1);
+            border-bottom: 3px solid $color-error;
+        }
+    }
+
+    &__input:placeholder-shown + &__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+    }
+
+    &__radio-group {
+        width: 49%;
+        display: inline-block;
+    }
+
+    &__radio-input {
+        display: none;
+    }
+    
+    &__radio-label {
+        font-size: $default-font-size;
+        color: $color-primary;
+        cursor: pointer;
+        position: relative;
+        padding-left: 4.5rem;
+        margin-right: 2rem;
+        white-space: nowrap;
+    }
+
+    &__radio-button {
+        height: 3rem;
+        width: 3rem;
+        border: 5px solid $color-primary;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: -.4rem;
+
+        &::after {
+            content: "";
+            display: block;
+            height: 1.3rem;
+            width: 1.3rem;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: $color-primary;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+    }
+
+    &__radio-input:checked ~ &__radio-label &__radio-button::after {
+        opacity: 1;
+    }
+}
+
+.radio--group{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .radio--button + .radio--label {
+        position: relative;
+        display: inline-block;
+        padding: 0.5rem;
+        width: 100%;
+        font-size: 1.4rem;
+        line-height: 20px;
+        letter-spacing: 1px;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+        text-align: center;
+        overflow: hidden;
+        cursor: pointer;
+        color: $color-primary-light;
+        -webkit-transition: all 300ms linear;
+        transition: all 300ms linear;
+        //background-color: $color-grey-dark-3;
+        border: 1.5px solid $color-grey-light-2;
+        
+        // &:first-child {
+        //     border-top-left-radius: 7px;
+        //     border-bottom-left-radius: 7px;
+        // }
+      
+        // &:last-child {
+        //     border-top-right-radius: 7px;
+        //     border-bottom-right-radius: 7px;
+        // }
+    }
+
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked){
+        display: none;
+    }
+
+    .radio--button:checked + label{
+        background-color: $color-primary;
+        border: 1.5px solid $color-grey-light-1;
+        color: $color-grey-light-1;
+    }
+}

@@ -10,7 +10,11 @@ const messageSchema: mongoose.Schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    author: {
+    sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    roomId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     }

@@ -1,0 +1,97 @@
+body {
+    font-family: $font, sans-serif;
+    font-weight: 400;
+    /*font-size: 16px;*/
+    line-height: 1.7;
+    color: $color-grey-light-1;
+}
+
+a {
+    color: $color-primary-light;
+    text-decoration: none;
+}
+
+.heading-primary {
+    display: block;
+    backface-visibility: hidden;
+    margin-bottom: 6rem;
+    text-transform: uppercase;
+
+    color: $h1-color;
+    font-weight: $h1-font-weight;
+    font-size: $h1-font-size;
+    letter-spacing: $h1-letter-spacing;
+
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+
+    &--white {
+        color: $color-white;
+    }
+
+    &--black {
+        color: $color-grey-dark-3;
+    }
+
+    &--gradient {
+        -webkit-background-clip: text;
+        background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+        color: transparent;
+    }
+}
+
+.heading-secondary {
+    text-transform: italic;
+    display: inline-block;
+    transition: all .2s;
+
+    font-size: $h2-font-size;
+    font-weight: $h2-font-weight;
+    letter-spacing: $h2-letter-spacing;
+    color: $h2-color;
+
+    &--white {
+        color: $color-grey-light-1;
+    }
+    &--black {
+        color: $color-grey-dark-3;
+    }
+
+    &--gradient {
+        -webkit-background-clip: text;
+        background-image: linear-gradient(to right, $color-secondary-light, $color-secondary-dark);
+        color: transparent;
+    }
+}
+
+.heading-tertiary {
+    text-transform: uppercase;
+
+    font-weight: $h3-font-weight;
+    font-size: $h3-font-size;
+    letter-spacing: $h3-letter-spacing;
+    color: $h3-color;
+
+    &--white {
+        color: $color-white;
+    }
+    &--black {
+        color: $color-grey-dark-3;
+    }
+}
+
+.paragraph {
+    font-size: $p-font-size;
+    font-weight: $p-font-weight;
+    letter-spacing: $p-letter-spacing;
+    color: $p-color;
+
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+
+    &--black {
+        color: $color-grey-dark-3;
+    }
+}

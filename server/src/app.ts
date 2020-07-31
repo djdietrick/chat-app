@@ -7,6 +7,9 @@ import * as https from 'http';
 import * as socketio from 'socket.io';
 import {UserRouter} from './routes/user';
 import {RoomRouter} from './routes/room';
+import {onSocketConnect} from './socket';
+const Message = require('./models/message');
+const Room = require('./models/room');
 
 const publicDir = path.join(__dirname, '../../client/dist/');
 
@@ -21,8 +24,8 @@ export class ChatApp {
         //     key: fs.readFileSync(process.env.KEY_LOCATION),
         //     cert: fs.readFileSync(process.env.CERT_LOCATION)
         // }
-        this.initRouters();
         this.initSettings();
+        this.initRouters();
         this.initDb();
 
         this.server = https.createServer(this.express);
@@ -38,22 +41,44 @@ export class ChatApp {
     private initSocket(): void {
         try {
             this.io = socketio.listen(this.server);
-            this.io.on('connection', (socket: any) => {
+            this.io.on('connection', (socket: socketio.Socket) => {
                 console.log('User connected');
-                let room: any = null;
-                socket.on('join', (r: any) => {
-                    room = r;
-                    console.log("User joining room ", room);
-                    socket.join(room);
+
+                socket.on('join', (r: string) => {
+                    console.log("User joining room ", r);
+                    socket.join(r);
+
+                    Room.findById(r).populate({
+                        path: 'messages',
+                        match: {roomId: r},
+                        limit: 50,
+                        sort: { 'created_at' : 1 }
+                    }).then(room => {
+                        socket.emit('roomMessages', {
+                            roomId: room._id,
+                            messages: room.messages
+                        })
+                    }).catch(err => console.log(err));
                 });
-                socket.on('message', (msg: any) => {
-                    console.log(`Msg: ${msg}, Room: ${room}`);
+
+                socket.on('message', async (msg: any) => {
+                    console.log(`Msg: ${msg.text}, Room: ${msg.roomId}, Sender: ${msg.sender}`);
+                    // Save message
+                    const message = await new Message({
+                        ...msg
+                    }).save();
+
+                    // Send to everyone in room
+                    this.io.to(msg.room).emit('message', message);
+                });
+
+                socket.on('disconnect', () => {
+                    console.log("User has left.");
                 });
             });
         } catch(e) {
             console.log(e);
-        }
-        
+        } 
     }
 
     private initSettings(): void {
@@ -65,7 +90,7 @@ export class ChatApp {
         this.express.use(cors());
     }
 
-    private initDb(): void {
+    private async initDb(): Promise<void> {
         require('./db/mongoose');
     }
 

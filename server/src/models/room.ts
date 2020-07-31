@@ -11,21 +11,23 @@ const roomSchema: mongoose.Schema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    members: {
-        type: [mongoose.Schema.Types.ObjectId],
+    members: [{
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    },
-    admins: {
-        type: [mongoose.Schema.Types.ObjectId],
+    }],
+    admins: [{
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    },
-    messages: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Message'
-    }
+    }],
 }, options);
+
+roomSchema.virtual('messages', {
+    ref: 'message',
+    localField: '_id',
+    foreignField: 'roomId'
+});
 
 const Room = mongoose.model('room', roomSchema);
 

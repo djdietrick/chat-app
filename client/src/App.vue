@@ -1,51 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <component :is="selectedComponent"/>
   </div>
 </template>
 
 <script>
+import Home from './views/Home.vue';
+import Chat from './views/Chat.vue';
+import {mapGetters} from 'vuex';
+
 export default {
-  sockets: {
-    connect: function () {
-        console.log('socket connected')
-    },
-    customEmit: function (data) {
-        console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    }
+  components: {
+    home: Home,
+    chat: Chat
   },
-  created() {
-    this.$socket.emit('join', 'test_room');
-    this.$socket.to('test_room').emit('message', 'test message');
-    this.$socket.emit('join', 'test_room2');
-    this.$socket.emit('message', 'test message2'); 
+  computed: {
+    ...mapGetters(["isAuthenticated"]),
+    selectedComponent() {
+      if(this.isAuthenticated) {
+        return "chat";
+      } else {
+        return "home";
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
+@import "./styles/main.scss";
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  height: 95vh;
+  width: 95vw;
 }
 </style>

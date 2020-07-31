@@ -4,6 +4,7 @@ const Room = require('../models/room');
 const {auth, roomMember, roomAdmin} = require('../middleware/auth');
 
 export function RoomRouter(router: Router = Router()): Router {
+    router.get('/rooms', auth, getRooms);
     router.post('/rooms/create', auth, createRoom);
     router.post('/rooms/add/member', [auth,roomAdmin], addMemberToRoom);
     router.post('/rooms/add/admin', [auth,roomAdmin], addAdminToRoom);
@@ -13,6 +14,19 @@ export function RoomRouter(router: Router = Router()): Router {
     router.delete('rooms', [auth, roomAdmin], deleteRoom);
     
     return router;
+}
+
+async function getRooms(req: any, res: Response) {
+    try {
+        let rooms = await Room.find({ members: req.user._id });
+
+        console.debug(`Found ${rooms.length} rooms for user ${req.user._id}`);
+
+        return res.status(200).send(rooms);
+    } catch(e) {
+        console.log(e.message);
+        return res.status(400).send("Could not create room, please try again later.");
+    }
 }
 
 async function createRoom(req: any, res: Response) {

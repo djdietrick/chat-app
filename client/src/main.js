@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
-import SocketIO from "socket.io-client"
+import axios from 'axios';
  
 Vue.use(new VueSocketIO({
     debug: true,
@@ -12,10 +12,17 @@ Vue.use(new VueSocketIO({
         store,
         actionPrefix: 'SOCKET_',
         mutationPrefix: 'SOCKET_'
-    }
-}))
+    },
+    autoConnect: false
+}));
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+axios.defaults.baseURL = process.env.VUE_APP_SERVER_URL;
+const state = JSON.parse(localStorage.getItem('vuex'));
+if(state && state.auth.token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + state.auth.token;
+}
 
 new Vue({
   router,
