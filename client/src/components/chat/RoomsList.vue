@@ -1,32 +1,48 @@
 <template>
     <div class="room-list">
-        <div v-for="room in rooms" class="room-list__entry">
-            <h3 class="heading-tertiary">{{room.name}}</h3>
+        <div v-for="room in rooms" :key="room._id" 
+        class="room-list__entry" 
+        @click="setSelectedRoom(room)"
+        v-bind:class="{'room-list__entry--active': isSelected(room)}">
+            <h3 class="heading-tertiary heading-tertiary--white">{{room.name}}</h3>
         </div>
     </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
-    props: {
-        rooms: {
-            type: Array,
-            default() {
-                    return [
-                    {
-                        name: "Test Room 1",
-                        id: "123"
-                    },
-                    {
-                        name: "Test Room 2",
-                        id: "124"
-                    },
-                    {
-                        name: "Test Room 3",
-                        id: "125"
-                    }
-                ]
-            } 
+    data() {
+        return {
+            selectedRoom: {
+                name: "Test 2",
+                _id: 0
+            }
+        }
+    },
+    computed: {
+        ...mapGetters({
+            rooms: 'getRooms'
+        })
+    },
+    methods: {
+        setSelectedRoom(room) {
+            this.selectedRoom = room;
+        },
+        isSelected(r) {
+            return this.selectedRoom._id === r._id;
+        }
+    },
+    watch: {
+        rooms: function(r) {
+            if(this.selectedRoom._id !== 0)
+                return;
+            if(r.length > 0)
+                this.selectedRoom = r[0];
+        },
+        selectedRoom: function(r) {
+            this.$emit('selectedRoom', r);
         }
     }
 }
@@ -40,8 +56,14 @@ export default {
 
     &__entry {
         padding: 2rem 3rem;
-        border: 2px solid $color-grey-dark-1;
-        border-radius: 1.5rem;
+        border-radius: 0.5rem;
+        background-color: $color-background;
+        box-shadow: 0 0.5rem 1rem rgba($color-black,.2);
+
+        &--active {
+            background-color: $color-primary;
+            color: $color-background;
+        }
         
         &:not(:last-child) {
             margin-bottom: 1rem;

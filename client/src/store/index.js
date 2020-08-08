@@ -16,15 +16,19 @@ export default new Vuex.Store({
   },
   getters: {
     getRooms: state => state.rooms,
-    getFriends: state => state.friends,
+    getFriends: state => state.auth.user.friends,
     getMessages: state => state.messages,
-    getRoomMessages: (state, roomId) => state.messages[roomId]
+    getRoomMessages: (state) => (roomId) => { return state.messages[roomId]; }
   },
   mutations: {
     setRooms: (state, rooms) => state.rooms = rooms,
     setFriends: (state, friends) => state.friends = friends,
-    SOCKET_ROOMMESSAGES: (state, room) => state.messages[room.roomId] = room.messages,
-    SOCKET_MESSAGE: (state, msg) => state.messages[msg.roomId].push(msg)
+    SOCKET_roomMessages: (state, room) => state.messages[room.roomId] = room.messages,
+    SOCKET_message: (state, msg) => {
+      if(state.messages[msg.roomId] === undefined)
+        state.messages[msg.roomId] = [];
+      state.messages[msg.roomId].push(msg);
+    }
   },
   actions: {
     async createRoom({commit}, room) {
@@ -41,11 +45,6 @@ export default new Vuex.Store({
   }, 
   modules: {
     auth
-  },
-  sockets: {
-    connect: function () {
-      console.log('hello from state')
-    }
   },
   plugins: [createPersistedState()]
 })

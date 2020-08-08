@@ -87,10 +87,6 @@ a {
     letter-spacing: $p-letter-spacing;
     color: $p-color;
 
-    &:not(:last-child) {
-        margin-bottom: 3rem;
-    }
-
     &--black {
         color: $color-grey-dark-3;
     }

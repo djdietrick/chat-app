@@ -1,3 +1,7 @@
+const User = require('./models/user');
+const Room = require('./models/room');
+const Message = require('./models/message');
+
 import * as express from 'express';
 let path = require('path');
 let bodyParser = require('body-parser');
@@ -8,8 +12,6 @@ import * as socketio from 'socket.io';
 import {UserRouter} from './routes/user';
 import {RoomRouter} from './routes/room';
 import {onSocketConnect} from './socket';
-const Message = require('./models/message');
-const Room = require('./models/room');
 
 const publicDir = path.join(__dirname, '../../client/dist/');
 
@@ -52,8 +54,12 @@ export class ChatApp {
                         path: 'messages',
                         match: {roomId: r},
                         limit: 50,
-                        sort: { 'created_at' : 1 }
-                    }).then(room => {
+                        sort: { 'created_at' : 1 },
+                        populate: {
+                            path: 'sender',
+                            select: 'name'
+                        }
+                    }).populate('members', 'name').then(room => {
                         socket.emit('roomMessages', {
                             roomId: room._id,
                             messages: room.messages
@@ -61,15 +67,17 @@ export class ChatApp {
                     }).catch(err => console.log(err));
                 });
 
-                socket.on('message', async (msg: any) => {
+                socket.on('submitMessage', async (msg: any) => {
                     console.log(`Msg: ${msg.text}, Room: ${msg.roomId}, Sender: ${msg.sender}`);
                     // Save message
-                    const message = await new Message({
+                    let message = await new Message({
                         ...msg
                     }).save();
 
+                    message = await Message.findById(message._id).populate('sender', 'name');
+
                     // Send to everyone in room
-                    this.io.to(msg.room).emit('message', message);
+                    this.io.to(msg.roomId).emit('message', message);
                 });
 
                 socket.on('disconnect', () => {

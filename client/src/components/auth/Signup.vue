@@ -106,13 +106,8 @@ export default {
     width: 40rem;
     border: 2px solid $color-primary;
     border-radius: 1rem;
-    padding: 5rem;
+    padding: 2rem;
     
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-
     .form__btn {
         align-self:center;
     }

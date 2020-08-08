@@ -1,0 +1,16 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__btn-group {
+        display: flex;
+        margin-bottom: 5rem;
+
+        .btn {
+            &:not(:last-child) {
+                margin-right: 2rem;
+            }
+        }
+    }
+}

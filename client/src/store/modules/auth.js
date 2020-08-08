@@ -12,7 +12,8 @@ const state = {
 
 const getters = {
     getUser: state => state.user,
-    isAuthenticated: state => state.token !== null
+    isAuthenticated: state => state.token !== null,
+    getUserId: state => state.userId
 }
 
 const mutations = {

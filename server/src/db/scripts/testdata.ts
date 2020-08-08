@@ -1,11 +1,16 @@
 const Room = require('../../models/room');
 const User = require('../../models/user');
+const Message = require('../../models/message');
 const moniker = require('moniker');
 
 require('../mongoose');
 
 const populateTestData = async () => {
     try {
+        await Message.deleteMany();
+        await Room.deleteMany();
+        await User.deleteMany();
+
         const user = await new User({
             name: "David Dietrick",
             email: "djdietrick@gmail.com",
@@ -24,6 +29,15 @@ const populateTestData = async () => {
             }).save();
             ids.push(newUser._id);
         }
+
+        for(let i = 0; i < 5; i++) {
+            user.friends.push({
+                id: ids[i],
+                status: "ACCEPTED"
+            });
+        }
+
+        await user.save();
     
         for(let i = 0; i < 5; i++) {
             await new Room({

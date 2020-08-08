@@ -14,6 +14,10 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    name_lower: {
+        type: String,
+        trim: true
+    },
     email: {
         type: String,
         unique: true,
@@ -39,6 +43,23 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
             type: String,
             required: true
         }
+    }],
+    friends: [{
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user',
+            required: true
+        },
+        status: {
+            type: String,
+            validate(value: String) {
+                if(value === "PENDING" || value === "ACCEPTED" || value === "DECLINED")
+                    return true;
+
+                throw new Error(`Unexpected status value ${value}`);
+            },
+            default: "PENDING"
+        }
     }]
 }, options);
 
@@ -63,7 +84,7 @@ userSchema.methods.generateAuthToken = async function (): Promise<String> {
 }
 
 userSchema.statics.findByCredentials = async (email, password): Promise<Object> => {
-    const user: any = await User.findOne({ email });
+    const user: any = await User.findOne({ email }).populate('friends.id', 'name email');
 
     if (!user) {
         throw new Error('User not found.');
@@ -81,6 +102,7 @@ userSchema.statics.findByCredentials = async (email, password): Promise<Object> 
 // Hash the plain text password before saving
 userSchema.pre('save', async function (next): Promise<void> {
     const user: any = this;
+    user.name_lower = user.name.toLowerCase();
 
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);

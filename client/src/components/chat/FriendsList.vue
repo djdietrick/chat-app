@@ -1,7 +1,12 @@
 <template>
     <div class="friend-list">
-        <div v-for="friend in friends" :key="friend.id" class="friend">
-            <h3 class="heading-tertiary">{{friend.name}}</h3>
+        <div class="friend-list__search">
+            
+        </div>
+        <div class="friend-list__list">
+            <div v-for="friend in friends" :key="friend.id._id" class="friend">
+                <h3 class="heading-tertiary">{{friend.id.name}}</h3>
+            </div>
         </div>
     </div>
 </template>
@@ -10,23 +15,7 @@
 export default {
     props: {
         friends: {
-            type: Array,
-            default() {
-                    return [
-                    {
-                        name: "Friend 1",
-                        id: "123"
-                    },
-                    {
-                        name: "Friend 2",
-                        id: "124"
-                    },
-                    {
-                        name: "Friend 3",
-                        id: "125"
-                    }
-                ]
-            } 
+            type: Array
         }
     }
 }

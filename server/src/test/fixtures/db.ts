@@ -4,20 +4,15 @@ import {ChatApp} from '../../app';
 
 const app = new ChatApp().express;
 
-const clearData: Function = async () => {
+export async function clearData() {
     await Room.deleteMany();
     await User.deleteMany();
 }
 
-const createUser: Function = async () => {
+export async function createUser() {
     await new User({
         name: "David Dietrick",
         email: "djdietrick@gmail.com",
         password: "password"
     }).save();
-}
-
-module.exports = {
-    createUser,
-    clearData
 }

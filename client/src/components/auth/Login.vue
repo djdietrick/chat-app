@@ -6,7 +6,7 @@
         <div class="form__group">
             <label for="email" class="form__label">Email</label>
             <input type="text" id='email' class='form__input'
-                v-model='email'>
+                v-model='email' autocomplete="false">
         </div>
         <div class="form__group">
             <label for="description" class="form__label">Password</label>
@@ -55,12 +55,7 @@ export default {
     width: 40rem;
     border: 2px solid $color-primary;
     border-radius: 1rem;
-    padding: 5rem;
-    
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
+    padding: 2rem;
 
     .form__btn {
         align-self:center;

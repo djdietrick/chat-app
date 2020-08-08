@@ -9,6 +9,8 @@
         transition: all .2s;
         position: relative;
 
+        text-align: center;
+
         font-size: $default-font-size;
         height: $btn-height;
         width: $btn-width;
@@ -18,7 +20,7 @@
         border: none;
         cursor: pointer;
     }
-    
+
     &:hover {
         transform: translateY(-3px);
         box-shadow: 0 1rem 2rem rgba($color-black,.2);
@@ -86,7 +88,7 @@
     &:link,
     &:visited {
         font-size: $default-font-size;
-        color: $color-primary;
+        color: $color-white;
         display: inline-block;
         text-decoration: none;
         padding: 3px;

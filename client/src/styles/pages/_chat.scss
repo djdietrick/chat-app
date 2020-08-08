@@ -4,7 +4,7 @@
     display: grid;
     grid-gap: 2rem;
     grid-template-columns: 25% 75%;
-    grid-template-rows: 30% 70%;
+    grid-template-rows: 30% 69%;
 
     .friend-list {
         grid-column: 1 / 2;
@@ -31,7 +31,6 @@
         grid-row: 1 / -1;
         //border: 2px solid $color-primary;
         border-radius: 0.5rem;        
-        padding: 2rem;
         background-color: $color-grey-dark-3;
         box-shadow: 0 1rem 1rem rgba($color-black,.4);
 

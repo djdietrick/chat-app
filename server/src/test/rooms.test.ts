@@ -1,6 +1,6 @@
 const request = require('supertest');
 const {sendAuthRequest} = require('./fixtures/auth');
-const {clearData,createUser} = require('./fixtures/db');
+import {clearData, createUser} from './fixtures/db';
 const Room = require('../models/room');
 const User = require('../models/user');
 

@@ -14,19 +14,20 @@ const roomSchema: mongoose.Schema = new mongoose.Schema({
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'user'
     }],
     admins: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'user'
     }],
 }, options);
 
 roomSchema.virtual('messages', {
     ref: 'message',
     localField: '_id',
-    foreignField: 'roomId'
+    foreignField: 'roomId',
+    justOne: false
 });
 
 const Room = mongoose.model('room', roomSchema);

@@ -1,9 +1,13 @@
 <template>
     <div class="chat">
         <FriendsList :friends="friends"/>
-        <RoomsList :rooms="rooms"/>
-        <Room/>
-        <div class="btn btn--secondary logout" @click.prevent="logout">Logout</div>
+        <RoomsList @selectedRoom="selectedRoom = $event"/>
+        <Room :room="selectedRoom"/>
+        <Dropdown class="logout">
+            <template v-slot:trigger>
+                <div class="btn btn--secondary">Logout</div>
+            </template>
+        </Dropdown>
     </div>
 </template>
 
@@ -12,8 +16,17 @@ import {mapGetters, mapActions} from 'vuex';
 import RoomsList from '../components/chat/RoomsList.vue';
 import FriendsList from '../components/chat/FriendsList.vue';
 import Room from '../components/chat/Room.vue';
+import Dropdown from '../components/Dropdown.vue';
 
 export default {
+    data() {
+        return {
+            selectedRoom: {
+                name: "Test",
+                _id: 0
+            }
+        }
+    },
     methods: {
         ...mapActions(['logout', 'fetchRooms'])
     },
@@ -27,7 +40,11 @@ export default {
     components: {
         RoomsList,
         FriendsList,
-        Room
+        Room,
+        Dropdown
+    },
+    watch: {
+        
     },
     async created() {
         this.$socket.open();

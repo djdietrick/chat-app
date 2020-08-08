@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     <h1 class="heading-primary">Chat App</h1>
-    <div class="btn btn--primary" @click="setComponent('login')">Login</div>
-    <div class="btn btn--primary" @click="setComponent('signup')">Signup</div>
+    <div class="home__btn-group">
+      <div class="btn btn--primary" @click="setComponent('login')">Login</div>
+      <div class="btn btn--primary" @click="setComponent('signup')">Signup</div>
+    </div>
     <component :is="selectedComponent"/>
   </div>
 </template>

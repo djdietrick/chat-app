@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "env-cmd -f ./src/config/dev.env nodemon src/server.ts",
-    "test": "env-cmd -f ./src/config/dev.env jest --runInBand",
+    "test": "env-cmd -f ./src/config/test.env jest --runInBand",
     "populatedb": "env-cmd -f ./src/config/dev.env ts-node ./src/db/scripts/testdata.ts"
   },
   "author": "",
