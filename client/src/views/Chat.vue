@@ -16,7 +16,7 @@ import {mapGetters, mapActions} from 'vuex';
 import RoomsList from '../components/chat/RoomsList.vue';
 import FriendsList from '../components/chat/FriendsList.vue';
 import Room from '../components/chat/Room.vue';
-import Dropdown from '../components/Dropdown.vue';
+import Dropdown from '../components/utils/Dropdown.vue';
 
 export default {
     data() {

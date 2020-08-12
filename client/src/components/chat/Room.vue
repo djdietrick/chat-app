@@ -3,7 +3,7 @@
         <div class="room__info">
             <h2 class="heading-secondary room__info__name">{{room.name}}</h2>
         </div>
-        <div class="room__messages">
+        <div class="room__messages" ref="room__messages">
             <div v-for="message in messages" :key="message._id" class="message"
                 v-bind:class="{ 'message__mine' : message.sender._id == userId }">
                 <p class="message__sender">{{message.sender.name}}</p>
@@ -73,7 +73,7 @@ export default {
         allMessages: function(m) {
             console.log("allMessages changed")
             if(this.room !== undefined && m[this.room._id] !== undefined)
-                this.messages = this.allMessages
+                this.messages = m[this.room._id];
         }
     }
 }

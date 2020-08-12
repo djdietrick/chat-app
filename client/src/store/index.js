@@ -11,7 +11,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     rooms: [],
-    friends: [],
     messages: {}
   },
   getters: {
@@ -26,7 +25,7 @@ export default new Vuex.Store({
     SOCKET_roomMessages: (state, room) => state.messages[room.roomId] = room.messages,
     SOCKET_message: (state, msg) => {
       if(state.messages[msg.roomId] === undefined)
-        state.messages[msg.roomId] = [];
+        Vue.set(state.messages, msg.roomId, []);
       state.messages[msg.roomId].push(msg);
     }
   },

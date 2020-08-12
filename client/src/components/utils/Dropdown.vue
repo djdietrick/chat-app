@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/main.scss";
+@import "../../styles/main.scss";
 
 .dropdown {
     position: relative;

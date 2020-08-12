@@ -4,6 +4,14 @@ import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
 import axios from 'axios';
+
+// Icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faPlusSquare);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
  
 Vue.use(new VueSocketIO({
     debug: true,
